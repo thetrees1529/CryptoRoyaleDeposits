@@ -3,6 +3,7 @@
 ```
 npx hardhat run scripts/deploy.js --network harmony
 ```
-^ to deploy on Harmony
+^ to deploy on Harmony \n
 If you need to set the deposit wallet to anything except the deployer you can add a DEPOSIT_WALLET value in the .env file.
-To add chains or change any of the config check out here https://hardhat.org/hardhat-runner/docs/config#available-config-options
+To add chains or change any of the config check out here:\n
+https://hardhat.org/hardhat-runner/docs/config#available-config-options
