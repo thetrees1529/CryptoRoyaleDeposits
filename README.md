@@ -3,4 +3,4 @@
 ```
 npx hardhat run scripts/deploy.js
 ```
-If you need to set the deposit wallet to anything except the deployer you can put an address value for it in the .env file.
+If you need to set the deposit wallet to anything except the deployer you can add a DEPOSIT_WALLET value in the .env file.
