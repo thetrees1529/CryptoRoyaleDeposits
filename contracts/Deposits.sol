@@ -15,14 +15,19 @@ contract Deposits is Ownable, ReentrancyGuard {
     IERC20 public ROY;
     address public depositWallet;
 
-    constructor(address depositWallet_) {
+    constructor(IERC20 ROY_, address depositWallet_) {
         _setDepositWallet(depositWallet_);
+        _setROY(ROY_);
     }
 
     mapping(address => uint) private _deposited;
 
     function setDepositWallet(address depositWallet_) external onlyOwner {
         _setDepositWallet(depositWallet_);
+    }
+
+    function setROY(IERC20 ROY_) external onlyOwner {
+        _setROY(ROY_);
     }
 
     function getDeposited(address account) external view returns(uint) {
@@ -37,6 +42,9 @@ contract Deposits is Ownable, ReentrancyGuard {
 
     function _setDepositWallet(address depositWallet_) private nonReentrant {
         depositWallet = depositWallet_;
+    }
+    function _setROY(IERC20 ROY_) private nonReentrant {
+        ROY = ROY_;
     }
 
 }
