@@ -14,6 +14,7 @@ contract Deposits is Ownable, ReentrancyGuard {
 
     IERC20 public ROY;
     address public depositWallet;
+    bytes32 public DEPOSITED_VIEWER_ROLE;
 
     constructor(IERC20 ROY_, address depositWallet_) {
         _setDepositWallet(depositWallet_);
