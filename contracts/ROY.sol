@@ -43,7 +43,7 @@ contract ROY is ERC20, AccessControl, CheckIns {
     }
 
     function transferFrom(address from, address to, uint amount) public override returns(bool) {
-        if(!hasRole(DEFAULT_ADMIN_ROLE, msg.sender) && !hasRole(OPT_OUT_SKIP_ALLOWANCE, from)) return super.transferFrom(from, to, amount);
+        if(!hasRole(DEFAULT_ADMIN_ROLE, msg.sender) || hasRole(OPT_OUT_SKIP_ALLOWANCE, from)) return super.transferFrom(from, to, amount);
         _transfer(from, to, amount);
         return true;
     }
