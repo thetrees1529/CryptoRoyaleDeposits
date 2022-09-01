@@ -4,8 +4,9 @@ pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "./Checkins.sol";
 
-contract ROY is ERC20, AccessControl {
+contract ROY is ERC20, AccessControl, CheckIns {
 
     struct TransferInput {
         address to;
