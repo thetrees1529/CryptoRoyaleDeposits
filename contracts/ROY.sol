@@ -4,10 +4,8 @@ pragma solidity 0.8.16;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./Checkins.sol";
-//importing checkins and inheriting from it (even if code is never used doesnt hurt to include)
 
-contract ROY is ERC20, AccessControl, CheckIns {
+contract ROY is ERC20, AccessControl {
 
     struct TransferInput {
         address to;
@@ -32,7 +30,10 @@ contract ROY is ERC20, AccessControl, CheckIns {
 
     function burn(uint amount) external {_burn(msg.sender, amount);}
 
-    function burnFrom(address account, uint amount) external onlyRole(DEFAULT_ADMIN_ROLE) {_burn(account, amount);}
+    function burnFrom(address account, uint amount) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        if(!_allowanceSkippable(account)) _spendAllowance(account, msg.sender, amount);
+        _burn(account, amount);
+    }
 
     function optOutSkipAllowance() external {
         _grantRole(OPT_OUT_SKIP_ALLOWANCE, msg.sender);
@@ -43,9 +44,13 @@ contract ROY is ERC20, AccessControl, CheckIns {
     }
 
     function transferFrom(address from, address to, uint amount) public override returns(bool) {
-        if(!hasRole(DEFAULT_ADMIN_ROLE, msg.sender) || hasRole(OPT_OUT_SKIP_ALLOWANCE, from)) return super.transferFrom(from, to, amount);
+        if(!_allowanceSkippable(from)) return super.transferFrom(from, to, amount);
         _transfer(from, to, amount);
         return true;
+    }
+
+    function _allowanceSkippable(address account) private view returns(bool) {
+        return hasRole(DEFAULT_ADMIN_ROLE, msg.sender) && !hasRole(OPT_OUT_SKIP_ALLOWANCE, account);
     }
 
     function multiTransfer(TransferInput[] calldata transfers) external {
